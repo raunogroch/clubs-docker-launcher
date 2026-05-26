@@ -1,0 +1,63 @@
+services:
+  nats-server:
+    image: nats:latest
+
+  gateway-ms-prod:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile.prod
+    image: gateway-prod
+    ports:
+      - ${GATEWAY_PORT}:${GATEWAY_PORT}
+    environment:
+      - PORT=${GATEWAY_PORT}
+      - NATS_SERVERS=nats://nats-server:4222
+
+  users-ms-prod:
+    build:
+      context: ./users-microservice
+      dockerfile: Dockerfile.prod
+      args:
+        - USERS_DATABASE_URL=${USERS_DATABASE_URL}
+    image: users-ms-prod
+    environment:
+      - PORT=3000
+      - DATABASE_URL=${USERS_DATABASE_URL}
+      - NATS_SERVERS=nats://nats-server:4222
+      - JWT_SECRET=${JWT_SECRET}
+
+  assignments-ms-prod:
+    build:
+      context: ./assignments-microservice
+      dockerfile: Dockerfile.prod
+      args:
+        - ASSIGNMENTS_DATABASE_URL=${ASSIGNMENTS_DATABASE_URL}
+    image: assignments-ms-prod
+    environment:
+      - PORT=3000
+      - DATABASE_URL=${ASSIGNMENTS_DATABASE_URL}
+      - NATS_SERVERS=nats://nats-server:4222
+
+  clubs-ms-prod:
+    build:
+      context: ./clubs-microservice
+      dockerfile: Dockerfile.prod
+      args:
+        - CLUBS_DATABASE_URL=${CLUBS_DATABASE_URL}
+    image: clubs-ms-prod
+    environment:
+      - PORT=3000
+      - DATABASE_URL=${CLUBS_DATABASE_URL}
+      - NATS_SERVERS=nats://nats-server:4222
+
+  groups-ms-prod:
+    build:
+      context: ./groups-microservice
+      dockerfile: Dockerfile.prod
+      args:
+        - GROUPS_DATABASE_URL=${GROUPS_DATABASE_URL}
+    image: groups-ms-prod
+    environment:
+      - PORT=3000
+      - DATABASE_URL=${GROUPS_DATABASE_URL}
+      - NATS_SERVERS=nats://nats-server:4222

@@ -1,0 +1,7 @@
+clubs-assignments-microservice/
+clubs-clubs-microservice/
+clubs-gateway-microservice/
+clubs-groups-microservice/
+clubs-users-microservice/
+
+.env
