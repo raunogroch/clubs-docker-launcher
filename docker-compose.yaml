@@ -7,12 +7,12 @@ services:
 
   gateway-ms-dev:
     build:
-      context: ./gateway
+      context: ./clubs-gateway-microservice
       dockerfile: Dockerfile
     ports:
       - ${GATEWAY_PORT}:3000
     volumes:
-      - ./gateway/src:/usr/src/app/src
+      - ./clubs-gateway-microservice/src:/usr/src/app/src
     command: pnpm run start:dev
     depends_on:
       - nats-server
@@ -23,12 +23,12 @@ services:
 
   users-ms-dev:
     build:
-      context: ./users-microservice
+      context: ./clubs-users-microservice
       dockerfile: Dockerfile
     depends_on:
       - nats-server
     volumes:
-      - ./users-microservice/src:/usr/src/app/src
+      - ./clubs-users-microservice/src:/usr/src/app/src
     command: pnpm run start:dev
     restart: unless-stopped
     environment:
@@ -39,12 +39,12 @@ services:
 
   assignments-ms-dev:
     build:
-      context: ./assignments-microservice
+      context: ./clubs-assignments-microservice
       dockerfile: Dockerfile
     depends_on:
       - nats-server
     volumes:
-      - ./assignments-microservice/src:/usr/src/app/src
+      - ./clubs-assignments-microservice/src:/usr/src/app/src
     command: pnpm run start:dev
     restart: unless-stopped
     environment:
@@ -54,12 +54,12 @@ services:
 
   clubs-ms-dev:
     build:
-      context: ./clubs-microservice
+      context: ./clubs-clubs-microservice
       dockerfile: Dockerfile
     depends_on:
       - nats-server
     volumes:
-      - ./clubs-microservice/src:/usr/src/app/src
+      - ./clubs-clubs-microservice/src:/usr/src/app/src
     command: pnpm run start:dev
     restart: unless-stopped
     environment:
@@ -69,12 +69,12 @@ services:
 
   groups-ms-dev:
     build:
-      context: ./groups-microservice
+      context: ./clubs-groups-microservice
       dockerfile: Dockerfile
     depends_on:
       - nats-server
     volumes:
-      - ./groups-microservice/src:/usr/src/app/src
+      - ./clubs-groups-microservice/src:/usr/src/app/src
     command: pnpm run start:dev
     restart: unless-stopped
     environment:

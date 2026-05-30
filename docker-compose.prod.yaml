@@ -4,7 +4,7 @@ services:
 
   gateway-ms-prod:
     build:
-      context: ./gateway
+      context: ./clubs-gateway-microservice
       dockerfile: Dockerfile.prod
     image: gateway-prod
     ports:
@@ -15,7 +15,7 @@ services:
 
   users-ms-prod:
     build:
-      context: ./users-microservice
+      context: ./clubs-users-microservice
       dockerfile: Dockerfile.prod
       args:
         - USERS_DATABASE_URL=${USERS_DATABASE_URL}
@@ -28,7 +28,7 @@ services:
 
   assignments-ms-prod:
     build:
-      context: ./assignments-microservice
+      context: ./clubs-assignments-microservice
       dockerfile: Dockerfile.prod
       args:
         - ASSIGNMENTS_DATABASE_URL=${ASSIGNMENTS_DATABASE_URL}
@@ -40,7 +40,7 @@ services:
 
   clubs-ms-prod:
     build:
-      context: ./clubs-microservice
+      context: ./clubs-clubs-microservice
       dockerfile: Dockerfile.prod
       args:
         - CLUBS_DATABASE_URL=${CLUBS_DATABASE_URL}
@@ -52,7 +52,7 @@ services:
 
   groups-ms-prod:
     build:
-      context: ./groups-microservice
+      context: ./clubs-groups-microservice
       dockerfile: Dockerfile.prod
       args:
         - GROUPS_DATABASE_URL=${GROUPS_DATABASE_URL}
