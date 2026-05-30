@@ -1,5 +1,16 @@
 # Docker Compose del launcher con microservicios y bases de datos PostgreSQL dedicadas.
 services:
+  postgres:
+    image: postgres:15-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=raunogroch-pg
+      - POSTGRES_PASSWORD=Passw0rd.3315
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
   nats-server:
     image: nats:latest
     ports:
@@ -27,13 +38,14 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - nats-server
+      - postgres
     volumes:
       - ./clubs-users-microservice/src:/usr/src/app/src
     command: pnpm run start:dev
     restart: unless-stopped
     environment:
       - PORT=3001
-      - DATABASE_URL=postgresql://raunogroch-pg:Passw0rd.3315@192.168.100.28:5432/usuariosdb-dev
+      - DATABASE_URL=postgresql://raunogroch-pg:Passw0rd.3315@postgres:5432/usuariosdb-dev
       - NATS_SERVERS=nats://nats-server:4222
       - JWT_SECRET=EsT0D3betterTh4nThis
 
@@ -43,13 +55,14 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - nats-server
+      - postgres
     volumes:
       - ./clubs-assignments-microservice/src:/usr/src/app/src
     command: pnpm run start:dev
     restart: unless-stopped
     environment:
       - PORT=3002
-      - DATABASE_URL=postgresql://raunogroch-pg:Passw0rd.3315@192.168.100.28:5432/assignmentsdb-dev
+      - DATABASE_URL=postgresql://raunogroch-pg:Passw0rd.3315@postgres:5432/assignmentsdb-dev
       - NATS_SERVERS=nats://nats-server:4222
 
   clubs-ms-dev:
@@ -58,13 +71,14 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - nats-server
+      - postgres
     volumes:
       - ./clubs-clubs-microservice/src:/usr/src/app/src
     command: pnpm run start:dev
     restart: unless-stopped
     environment:
       - PORT=3003
-      - DATABASE_URL=postgresql://raunogroch-pg:Passw0rd.3315@192.168.100.28:5432/clubsdb-dev
+      - DATABASE_URL=postgresql://raunogroch-pg:Passw0rd.3315@postgres:5432/clubsdb-dev
       - NATS_SERVERS=nats://nats-server:4222
 
   groups-ms-dev:
@@ -73,11 +87,15 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - nats-server
+      - postgres
     volumes:
       - ./clubs-groups-microservice/src:/usr/src/app/src
     command: pnpm run start:dev
     restart: unless-stopped
     environment:
       - PORT=3004
-      - DATABASE_URL=postgresql://raunogroch-pg:Passw0rd.3315@192.168.100.28:5432/groupsdb-dev
+      - DATABASE_URL=postgresql://raunogroch-pg:Passw0rd.3315@postgres:5432/groupsdb-dev
       - NATS_SERVERS=nats://nats-server:4222
+
+volumes:
+  postgres_data:
