@@ -11,6 +11,7 @@ services:
       - ${GATEWAY_PORT}:${GATEWAY_PORT}
     environment:
       - PORT=${GATEWAY_PORT}
+      - CORS_ORIGIN=${CORS_ORIGIN}
       - NATS_SERVERS=nats://nats-server:4222
 
   users-ms-prod:
@@ -38,17 +39,17 @@ services:
       - DATABASE_URL=${ASSIGNMENTS_DATABASE_URL}
       - NATS_SERVERS=nats://nats-server:4222
 
-  # clubs-ms-prod:
-  #   build:
-  #     context: ./clubs-clubs-microservice
-  #     dockerfile: Dockerfile.prod
-  #     args:
-  #       - CLUBS_DATABASE_URL=${CLUBS_DATABASE_URL}
-  #   image: clubs-ms-prod
-  #   environment:
-  #     - PORT=3000
-  #     - DATABASE_URL=${CLUBS_DATABASE_URL}
-  #     - NATS_SERVERS=nats://nats-server:4222
+  clubs-ms-prod:
+    build:
+      context: ./clubs-clubs-microservice
+      dockerfile: Dockerfile.prod
+      args:
+        - CLUBS_DATABASE_URL=${CLUBS_DATABASE_URL}
+    image: clubs-ms-prod
+    environment:
+      - PORT=3000
+      - DATABASE_URL=${CLUBS_DATABASE_URL}
+      - NATS_SERVERS=nats://nats-server:4222
 
   groups-ms-prod:
     build:

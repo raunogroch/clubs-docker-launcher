@@ -8,7 +8,7 @@ services:
       - POSTGRES_USER=raunogroch-pg
       - POSTGRES_PASSWORD=Passw0rd.3315
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ./postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
 
   nats-server:
