@@ -99,5 +99,21 @@ services:
       - DATABASE_URL=postgresql://raunogroch-pg:Passw0rd.3315@postgres:5432/groupsdb-dev
       - NATS_SERVERS=nats://nats-server:4222
 
+  storage-ms-dev:
+    build:
+      context: ./clubs-storage-microservice
+      dockerfile: Dockerfile
+    depends_on:
+      - nats-server
+      - postgres
+    volumes:
+      - ./clubs-storage-microservice/src:/usr/src/app/src
+    command: pnpm run start:dev
+    restart: unless-stopped
+    environment:
+      - PORT=3005
+      - DATABASE_URL=postgresql://raunogroch-pg:Passw0rd.3315@postgres:5432/storage-dev
+      - NATS_SERVERS=nats://nats-server:4222
+
 volumes:
   postgres_data:
