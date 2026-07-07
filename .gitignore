@@ -5,5 +5,6 @@ clubs-groups-microservice/
 clubs-users-microservice/
 clubs-storage-microservice/
 postgres_data/
+storage_data/
 
 .env
